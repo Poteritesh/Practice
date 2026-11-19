@@ -1,0 +1,25 @@
+import { createContext, useState, useEffect } from "react";
+import { getLocalStorage, setLocalStorage } from "../utils/LocalStorage";
+
+export const AuthContext = createContext(null);
+
+const AuthProvider = ({ children }) => {
+  // localStorage.clear();
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    setLocalStorage();
+    const { employees } = getLocalStorage();
+
+    setUserData(employees);
+  }, []);
+
+  return (
+    <AuthContext.Provider value={[userData, setUserData]}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthProvider;
